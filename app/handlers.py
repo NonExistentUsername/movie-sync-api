@@ -40,7 +40,7 @@ async def update_rights(is_admin: bool, nickname: str, db: Session = Depends(cor
     return crud.user.set_admin_rights_for_user(is_admin, nickname, db, current_user)
 
 
-@router.get("/app/commands", response_model=Page[schemas.command.Command])
+@router.get("/app/get_commands", response_model=Page[schemas.command.Command])
 async def get_commands(db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
     return paginate(crud.command.get_commands(db, current_user))
 
