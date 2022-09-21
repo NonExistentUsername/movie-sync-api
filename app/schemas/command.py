@@ -12,6 +12,14 @@ class CommandCreate(CommandBase):
     receiver_id: Optional[int]
 
 
+class CommandDelete(BaseModel):
+    commands: list[int]
+
+
+class CommandDeleted(BaseModel):
+    deleted_commands: list[int]
+
+
 class Command(CommandBase):
     id: int
     sender_id: int

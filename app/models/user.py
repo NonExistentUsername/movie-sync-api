@@ -10,4 +10,4 @@ class User(Base):
     nickname = Column(String(256), nullable=False, unique=True)
     hashed_password = Column(String(256), nullable=False)
     is_admin = Column(Boolean, nullable=False, default=False)
-
+    receives_commands = Column(Boolean, nullable=False, default=False)

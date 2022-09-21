@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -6,7 +7,8 @@ class UserBase(BaseModel):
 
 
 class UserUpdate(UserBase):
-    have_access: bool
+    is_admin: Optional[bool] = None
+    receives_commands: Optional[bool] = None
 
 
 class UserCreate(UserBase):
@@ -20,6 +22,7 @@ class UserLogin(UserCreate):
 class User(UserBase):
     id: int
     is_admin: bool
+    receives_commands: bool
 
     class Config:
         orm_mode = True
