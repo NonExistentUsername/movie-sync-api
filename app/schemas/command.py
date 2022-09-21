@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 import datetime
 
 
@@ -13,11 +13,11 @@ class CommandCreate(CommandBase):
 
 
 class CommandDelete(BaseModel):
-    commands: list[int]
+    commands: List[int]
 
 
 class CommandDeleted(BaseModel):
-    deleted_commands: list[int]
+    deleted_commands: List[int]
 
 
 class Command(CommandBase):
