@@ -14,7 +14,7 @@ def get_commands(db: Session, current_user: models.user.User):
 def send_command(command: schemas.command.CommandCreate, db: Session, current_user: models.user.User):
     if not current_user.is_admin:
         raise HTTPException(status_code=403)
-    admins = db.query(models.user.User).filter(models.user.User.is_admin == True)
+    admins = db.query(models.user.User).filter(models.user.User.receives_commands == True)
     db_command = None
 
     if command.receiver_id is None:
