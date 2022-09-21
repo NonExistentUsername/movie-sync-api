@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Generator, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, Depends
 import core.config as config
@@ -25,7 +25,7 @@ def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    user_id: int | None = None
+    user_id: Optional[int] = None
     try:
         payload = jwt.decode(
             token,
