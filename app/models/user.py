@@ -8,6 +8,6 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nickname = Column(String(256), nullable=False, unique=True)
-    hashed_password = Column(String, nullable=False)
+    hashed_password = Column(String(256), nullable=False)
     is_admin = Column(Boolean, nullable=False, default=False)
 
