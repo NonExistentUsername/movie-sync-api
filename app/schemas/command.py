@@ -1,15 +1,15 @@
 from pydantic import BaseModel
+from typing import Optional
 import datetime
 
 
 class CommandBase(BaseModel):
     command: str
-    param: str | None
+    param: Optional[str]
 
 
 class CommandCreate(CommandBase):
-    receiver_id: int | None
-    pass
+    receiver_id: Optional[int]
 
 
 class Command(CommandBase):

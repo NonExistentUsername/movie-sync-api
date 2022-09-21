@@ -4,9 +4,10 @@ from core.security import get_password_hash, verify_password
 import schemas.user
 import models.user
 from core.auth import create_access_token
+from typing import Optional
 
 
-def get_user_by_nickname(db: Session, nickname: str) -> models.user.User | None:
+def get_user_by_nickname(db: Session, nickname: str) -> Optional[models.user.User]:
     return db.query(models.user.User).filter(models.user.User.nickname == nickname).first()
 
 
