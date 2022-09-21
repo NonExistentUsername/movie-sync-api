@@ -36,10 +36,6 @@ pyasn1==0.4.8
 pydantic==1.10.2
 pymongo==4.2.0
 pynput==1.7.6
-# pyobjc-core==8.5.1
-# pyobjc-framework-ApplicationServices==8.5.1
-# pyobjc-framework-Cocoa==8.5.1
-# pyobjc-framework-Quartz==8.5.1
 pypika-tortoise==0.1.6
 python-jose==3.3.0
 pytz==2022.2.1
