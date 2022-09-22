@@ -23,4 +23,4 @@ def download_app(current_user: models.user.User):
     if not current_user.is_admin and not current_user.receives_commands:
         raise HTTPException(status_code=403)
 
-    return FileResponse("media/app.py", media_type='application/octet-stream', filename="app.py")
+    return FileResponse("../media/app.py", media_type='application/octet-stream', filename="app.py")
