@@ -12,7 +12,7 @@ def get_last_app_update(current_user: models.user.User):
     if not current_user.is_admin and not current_user.receives_commands:
         raise HTTPException(status_code=403)
 
-    time = os.path.getmtime("media/app.py")
+    time = os.path.getmtime("../media/app.py")
 
     return {
         "last_update": datetime.datetime.fromtimestamp(time)
