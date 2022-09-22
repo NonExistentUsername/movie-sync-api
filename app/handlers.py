@@ -36,6 +36,11 @@ async def get_users(db: Session = Depends(core.deps.get_db), current_user: model
     return paginate(crud.user.get_users(db, current_user))
 
 
+@router.get("/users/user", response_model=schemas.user.User)
+async def get_user(nickname: str, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
+    return crud.user.get_user(nickname, db, current_user)
+
+
 @router.post("/users/update_user/", response_model=schemas.user.User)
 async def update_rights(user: schemas.user.UserUpdate, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
     return crud.user.set_admin_rights_for_user(user, db, current_user)

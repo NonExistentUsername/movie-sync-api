@@ -5,6 +5,7 @@ import schemas.user
 import models.user
 from core.auth import create_access_token
 from typing import Optional
+import re
 
 
 def get_user_by_nickname(db: Session, nickname: str) -> Optional[models.user.User]:
@@ -38,7 +39,33 @@ def get_users(db: Session, current_user: models.user.User):
     return db.query(models.user.User).all()
 
 
+def get_user(nickname: str, db: Session, current_user: models.user.User):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403)
+
+    result = db.query(models.user.User).filter(models.user.User.nickname == nickname).first()
+    if not result:
+        raise HTTPException(status_code=404, detail="User not found.")
+
+    return result
+
+
+def validating_nickname(nickname: str) -> bool:
+    regex_name = re.compile(r'^(?=.{4,256}$)[a-zA-Z_]\w*$', re.IGNORECASE)
+    result = regex_name.search(nickname)
+    if result and result.string == nickname:
+        return True
+    return False
+
+
 def register_user(user: schemas.user.UserCreate, db: Session):
+    if not validating_nickname(user.nickname):
+        raise HTTPException(status_code=400,
+                detail="This nickname is not allowed. You can use letters, digits and '_'. Nickname length must be at least 4 characters.")
+
+    if len(user.password) < 4 or len(user.password) > 32:
+        raise HTTPException(status_code=400, detail="This password is not allowed.")
+
     if get_user_by_nickname(db, user.nickname):
         raise HTTPException(status_code=400, detail="User with same nickname already registered.")
 
