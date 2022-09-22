@@ -33,3 +33,10 @@ def next_video(param):
 def open_url(param):
     if isinstance(param, str):
         webbrowser.open(param)
+
+
+def handle_command(command: str, param: str) -> bool:
+    if command in handlers:
+        handlers[command](param)
+        return True
+    return False
