@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 import schemas.user
 import schemas.command
+import schemas.app
 import models.user
 import crud.user
 import crud.command
@@ -55,7 +56,7 @@ async def delete_commands(commands: schemas.command.CommandDelete, db: Session =
     return crud.command.delete_commands(commands, db, current_user)
 
 
-@router.get("/app/last_update")
+@router.get("/app/last_update", response_model=schemas.app.AppLastUpdate)
 async def get_last_app_update(current_user: models.user.User = Depends(core.deps.get_current_user)):
     return crud.app.get_last_app_update(current_user)
 
