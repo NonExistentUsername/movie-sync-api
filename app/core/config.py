@@ -1,6 +1,6 @@
 from starlette.config import Config
 
-DEBUG = False
+DEBUG = True
 
 config = None
 
@@ -20,6 +20,7 @@ if DEBUG:
 else:
     DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_DB}"
 
+BASE_DIR = config("BASE_DIR", cast=str, default="")
 ACCESS_TOKEN_EXPIRE_MINUTES = config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int, default=1)
 JWT_SECRET = config("JWT_SECRET", cast=str, default="")
 JWT_ALGORITHM = config("JWT_ALGORITHM", cast=str, default="")
