@@ -19,7 +19,7 @@ def start_playing(param):
     keyboard.tap(Key.media_play_pause)
 
 
-@add_handler(command="stop")
+@add_handler(command="pause")
 def stop_playing(param):
     keyboard.tap(Key.media_play_pause)
 
