@@ -12,6 +12,7 @@ if core.config.DEBUG:
 engine = create_engine(
     SQLALCHEMY_DATABASE_URI,
     connect_args=connect_args,
+    pool_pre_ping=True,
 )
 
 
