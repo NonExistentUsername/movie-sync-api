@@ -42,10 +42,6 @@ pydantic==1.10.2
 pymongo==4.2.0
 PyMySQL==1.0.2
 pynput==1.7.6
-pyobjc-core==8.5.1
-pyobjc-framework-ApplicationServices==8.5.1
-pyobjc-framework-Cocoa==8.5.1
-pyobjc-framework-Quartz==8.5.1
 pypika-tortoise==0.1.6
 pyTelegramBotAPI==4.7.0
 python-dotenv==0.21.0
