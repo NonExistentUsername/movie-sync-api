@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from handlers.all_handlers import api_router
+from handlers import router
 
 from db.session import engine
 from db.base_class import Base
 from fastapi_pagination import add_pagination
-import core.global_variables
+# import core.global_variables
 
 
 Base.metadata.create_all(bind=engine)
@@ -12,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 def get_application():
     application = FastAPI()
-    application.include_router(api_router, prefix='/api')
+    application.include_router(router)
     add_pagination(application)
     return application
 
@@ -20,6 +20,6 @@ def get_application():
 app = get_application()
 
 
-@app.on_event("startup")
-def init():
-    core.global_variables.init()
+# @app.on_event("startup")
+# def init():
+#     core.global_variables.init()
