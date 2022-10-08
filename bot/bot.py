@@ -19,6 +19,8 @@ bot = telebot.TeleBot(API_TOKEN, threaded=False)
 bot.remove_webhook()
 time.sleep(20)
 
+
+print(f'POrt: {os.getenv("BIND_PORT")}')
 try:
     url = f"http://0.0.0.0:{os.getenv('BIND_PORT')}/"
     response = requests.get(url)
