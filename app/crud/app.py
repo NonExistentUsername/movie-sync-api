@@ -1,5 +1,3 @@
-import time
-
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 import schemas.command
@@ -8,7 +6,6 @@ import models.command
 import os
 import datetime
 import core.config
-import core.global_variables
 from starlette.responses import FileResponse
 
 
@@ -28,8 +25,3 @@ def download_app(current_user: models.user.User):
         raise HTTPException(status_code=403)
 
     return FileResponse(os.path.join(core.config.BASE_DIR, "media/app.py"), media_type='application/octet-stream', filename="app.py")
-
-
-async def app_test_long_poling_send():
-    await core.global_variables.socket_manager.broadcast("Data")
-    return {"status": "Done!"}
