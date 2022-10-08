@@ -19,16 +19,22 @@ bot = telebot.TeleBot(API_TOKEN, threaded=False)
 bot.remove_webhook()
 time.sleep(20)
 
-url = f"http://0.0.0.0:{os.getenv('PORT')}/"
-response = requests.get(url)
-print(response.status_code)
-print(response.content)
+try:
+    url = f"http://0.0.0.0:{os.getenv('PORT')}/"
+    response = requests.get(url)
+    print(response.status_code)
+    print(response.content)
+except:
+    print('Attemp 1 Failed')
 
 
-url = f"http://127.0.0.1:{os.getenv('PORT')}/"
-response = requests.get(url)
-print(response.status_code)
-print(response.content)
+try:
+    url = f"http://127.0.0.1:{os.getenv('PORT')}/"
+    response = requests.get(url)
+    print(response.status_code)
+    print(response.content)
+except:
+    print('Attemp 2 Failed')
 
 #
 # client = Client()
