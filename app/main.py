@@ -29,5 +29,6 @@ def init():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", port=int(os.getenv('PORT')), host="0.0.0.0", reload=True, workers=1)
+    port = int(os.getenv('PORT'))
+    uvicorn.run("main:app", app_dir="app", port=int(os.getenv('PORT')), host="0.0.0.0", reload=True, workers=1)
 
