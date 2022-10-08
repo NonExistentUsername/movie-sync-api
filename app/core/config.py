@@ -28,6 +28,8 @@ else:
     MYSQL_PORT = str(os.getenv("MYSQL_PORT"))
     MYSQL_DB = str(os.getenv("MYSQL_DB"))
 
+    DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_DB}"
+    
     BASE_DIR = str(os.getenv("BASE_DIR"))
     ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
     JWT_SECRET = str(os.getenv("JWT_SECRET"))
