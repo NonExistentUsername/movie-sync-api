@@ -36,6 +36,22 @@ try:
 except:
     print('Attemp 2 Failed')
 
+try:
+    url = f"http://0.0.0.0:80/"
+    response = requests.get(url)
+    print(response.status_code)
+    print(response.content)
+except:
+    print('Attemp 3 Failed')
+
+try:
+    url = f"http://127.0.0.1:80/"
+    response = requests.get(url)
+    print(response.status_code)
+    print(response.content)
+except:
+    print('Attemp 4 Failed')
+
 #
 # client = Client()
 # client.init()
