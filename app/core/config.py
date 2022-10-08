@@ -1,6 +1,6 @@
 from starlette.config import Config
 
-DEBUG = True
+DEBUG = False
 
 config = None
 
