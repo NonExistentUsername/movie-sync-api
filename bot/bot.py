@@ -15,7 +15,7 @@ ANSWER = "Команду відправлено на виконання 👀"
 
 bot = telebot.TeleBot(API_TOKEN, threaded=False)
 bot.remove_webhook()
-time.sleep(0.1)
+time.sleep(20)
 
 client = Client()
 client.init()

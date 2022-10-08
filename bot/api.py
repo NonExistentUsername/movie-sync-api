@@ -28,7 +28,7 @@ class Config:
     }
 
 
-Config.API_URL = f"http://0.0.0.0:80/"
+Config.API_URL = f"http://0.0.0.0:{os.getenv('PORT')}/"
 
 
 class ApiStatus(Enum):
