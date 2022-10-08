@@ -8,9 +8,9 @@ from typing import Optional, List
 
 
 class Config:
-    API_URL: str = "https://ekxb35fje-private-web-api.herokuapp.com/"
+    # API_URL: str = "https://private-web-service.onrender.com/"
     TIMEOUT = 10
-    # API_URL: str = "http://0.0.0.0:8000/"
+    API_URL: str = "http://0.0.0.0:8000/"
     DATE_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
 
     PATHS: dict = {
@@ -26,6 +26,9 @@ class Config:
         "app_last_update": "app/last_update",
         "app_download": "app/download",
     }
+
+
+Config.API_URL = f"http://0.0.0.0:{os.getenv('PORT')}/"
 
 
 class ApiStatus(Enum):
