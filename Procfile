@@ -1,1 +1,1 @@
-web: uvicorn main:app --app-dir app --workers 1
+web: uvicorn main:app --app-dir app --workers 1 --port $PORT
