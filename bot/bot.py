@@ -20,7 +20,7 @@ bot.remove_webhook()
 time.sleep(20)
 
 try:
-    url = f"http://0.0.0.0:{os.getenv('PORT')}/"
+    url = f"http://0.0.0.0:{os.getenv('BIND_PORT')}/"
     response = requests.get(url)
     print(response.status_code)
     print(response.content)
@@ -29,7 +29,7 @@ except:
 
 
 try:
-    url = f"http://127.0.0.1:{os.getenv('PORT')}/"
+    url = f"http://127.0.0.1:{os.getenv('BIND_PORT')}/"
     response = requests.get(url)
     print(response.status_code)
     print(response.content)
