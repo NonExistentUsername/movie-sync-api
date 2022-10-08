@@ -1,2 +1,2 @@
-web: cd app && python main.py
+web: python runserver.py
 worker: cd bot && python bot.py
