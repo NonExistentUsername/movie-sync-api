@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from handlers.all_handlers import api_router
 
@@ -23,3 +25,9 @@ app = get_application()
 @app.on_event("startup")
 def init():
     core.global_variables.init()
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", port=int(os.getenv('PORT')), host="0.0.0.0", reload=True, workers=1)
+
