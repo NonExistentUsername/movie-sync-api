@@ -22,7 +22,7 @@ time.sleep(20)
 
 print(f'POrt: {os.getenv("BIND_PORT")}')
 try:
-    url = f"http://0.0.0.0:{os.getenv('BIND_PORT')}/"
+    url = f"http://0.0.0.0:{os.getenv('PORT')}/"
     response = requests.get(url)
     print(response.status_code)
     print(response.content)
@@ -31,7 +31,7 @@ except:
 
 
 try:
-    url = f"http://127.0.0.1:{os.getenv('BIND_PORT')}/"
+    url = f"http://127.0.0.1:{os.getenv('PORT')}/"
     response = requests.get(url)
     print(response.status_code)
     print(response.content)
