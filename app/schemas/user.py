@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, validator
 
-from typing import Optional
+from typing import Optional, List
 import re
 
 
@@ -55,6 +55,7 @@ class User(UserBase):
     id: int
     is_admin: bool
     have_access: bool
+    member_of_rooms: List[int]
 
     class Config:
         orm_mode = True
