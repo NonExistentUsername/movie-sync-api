@@ -17,17 +17,24 @@ app_router.include_router(app_ws_router, prefix='/ws')
 
 
 @app_router.post("/send_command", response_model=schemas.command.Command)
-async def send_command(command: schemas.command.CommandCreate, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
+async def send_command(
+        command: schemas.command.CommandCreate,
+        db: Session = Depends(core.deps.get_db),
+        current_user: models.user.User = Depends(core.deps.get_current_user)):
     return await crud.command.send_command(command, db, current_user)
 
 
 @app_router.delete("/delete_commands", response_model=schemas.command.CommandDeleted)
-async def delete_commands(commands: schemas.command.CommandDelete, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
+async def delete_commands(
+        commands: schemas.command.CommandDelete,
+        db: Session = Depends(core.deps.get_db),
+        current_user: models.user.User = Depends(core.deps.get_current_user)):
     return crud.command.delete_commands(commands, db, current_user)
 
 
 @app_router.get("/last_update", response_model=schemas.app.AppLastUpdate)
-async def get_last_app_update(current_user: models.user.User = Depends(core.deps.get_current_user)):
+async def get_last_app_update(
+        current_user: models.user.User = Depends(core.deps.get_current_user)):
     return crud.app.get_last_app_update(current_user)
 
 
