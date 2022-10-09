@@ -13,6 +13,10 @@ Base.metadata.create_all(bind=engine)
 def get_application():
     tags_metadata = [
         {
+            "name": "auth",
+            "description": "Authorization.",
+        },
+        {
             "name": "users",
             "description": "Operations with users.",
         },
