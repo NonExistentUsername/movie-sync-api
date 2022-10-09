@@ -1,5 +1,5 @@
 from fastapi import WebSocket
-from typing import List
+from typing import List, Optional
 
 
 class SocketManager:
@@ -18,7 +18,7 @@ class SocketManager:
             await connection.send_json(data)
 
 
-socket_manager: SocketManager = None
+socket_manager: Optional[SocketManager] = None
 
 
 def init():
