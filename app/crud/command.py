@@ -3,6 +3,7 @@ from fastapi import HTTPException, WebSocket, WebSocketDisconnect
 import schemas.command
 import models.user
 import models.command
+import models.room
 import core.global_variables
 
 
@@ -22,18 +23,20 @@ async def ws_get_commands(websocket: WebSocket, current_user: models.user.User):
 
 
 async def send_command(command: schemas.command.CommandCreate, db: Session, current_user: models.user.User):
-    if not current_user.is_admin:
-        raise HTTPException(status_code=403)
-    admins = db.query(models.user.User).filter(models.user.User.receives_commands == True)
+    if not current_user.have_access:
+        raise HTTPException(status_code=403, detail="You don't have access.")
+
+    db_room: models.room.Room = db.query(models.room.Room).filter(models.room.Room.name == command.room_name).first()
+    if db_room is None or current_user not in db_room.members_of_room:
+        raise HTTPException(status_code=400, detail="Room is not found.")
     db_command = None
 
-    if command.receiver_id is None:
-        for admin in admins:
-            db_command = models.command.Command(command=command.command, param=command.param, receiver_id=admin.id,
-                                                sender_id=current_user.id)
-            db.add(db_command)
-            db.commit()
-            db.refresh(db_command)
+    for member in db_room.members_of_room:
+        db_command = models.command.Command(command=command.command, param=command.param, receiver_id=member.id,
+                                            sender_id=current_user.id, room_id=db_room.id)
+        db.add(db_command)
+        db.commit()
+        db.refresh(db_command)
         await core.global_variables.socket_manager.broadcast({"status": "updated"})
     else:
         pass

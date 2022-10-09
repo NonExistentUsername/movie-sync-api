@@ -9,7 +9,7 @@ class CommandBase(BaseModel):
 
 
 class CommandCreate(CommandBase):
-    receiver_id: Optional[int]
+    room_name: str
 
 
 class CommandDelete(BaseModel):
@@ -23,6 +23,7 @@ class CommandDeleted(BaseModel):
 class Command(CommandBase):
     id: int
     sender_id: int
+    room_name: str
     create_date: datetime.datetime
 
     class Config:

@@ -12,4 +12,5 @@ class User(Base):
     hashed_password = Column(String(256), nullable=False)
     is_admin = Column(Boolean, nullable=False, default=False)
     have_access = Column(Boolean, nullable=False, default=False)
-    member_of_rooms = relationship("Room", secondary=user_room_member_association_table)
+    member_of_rooms = relationship(
+        "Room", secondary=user_room_member_association_table, back_populates='members_of_room')
