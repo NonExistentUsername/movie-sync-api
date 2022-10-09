@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 import datetime
 
 
 class CommandBase(BaseModel):
-    command: str
-    param: Optional[str]
+    command: str = Field(max_length=64)
+    param: Optional[str] = Field(max_length=256, default=None)
 
 
 class CommandCreate(CommandBase):
