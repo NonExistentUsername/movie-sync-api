@@ -1,8 +1,7 @@
 from starlette.config import Config
+import os
 
-DEBUG = False
-
-config = None
+DEBUG = bool(os.getenv("DEBUG"))
 
 if DEBUG:
     config = Config(".env")
