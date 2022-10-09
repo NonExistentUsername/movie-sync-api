@@ -24,6 +24,7 @@ else:
     #
     # DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_DB}"
     DATABASE_URL = str(os.getenv('DATABASE_URL'))
+    DATABASE_URL = "postgresql" + DATABASE_URL[8:]
     
     BASE_DIR = str(os.getenv("BASE_DIR"))
     ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
