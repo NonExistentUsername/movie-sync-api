@@ -1,15 +1,10 @@
-from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
-from sqlalchemy.orm import Session
-import schemas.user
-import schemas.command
-import schemas.app
+from fastapi import APIRouter, Depends, WebSocket
 import models.user
 import crud.user
 import crud.command
 import crud.app
 import core.deps
 import core.global_variables
-from starlette.responses import FileResponse
 
 commands_ws_router = APIRouter()
 

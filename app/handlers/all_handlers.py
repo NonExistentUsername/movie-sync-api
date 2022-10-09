@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from handlers.auth import auth_router
 from handlers.users import users_router
 from handlers.app import app_router

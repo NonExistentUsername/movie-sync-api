@@ -1,7 +1,5 @@
-from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-import schemas.user
-import schemas.command
 import schemas.app
 import models.user
 import crud.user
