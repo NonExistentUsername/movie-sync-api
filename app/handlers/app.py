@@ -18,11 +18,6 @@ async def get_last_app_update(
     return crud.app.get_last_app_update(current_user)
 
 
-@app_router.get("/test_long_poling_send")
-async def app_test_long_poling_send(data: str, db: Session = Depends(core.deps.get_db)):
-    return await crud.app.app_test_long_poling_send()
-
-
 @app_router.get("/download", response_class=FileResponse)
 async def get_last_app_update(current_user: models.user.User = Depends(core.deps.get_current_user)):
     return crud.app.download_app(current_user)
