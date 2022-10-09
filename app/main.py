@@ -35,7 +35,11 @@ def get_application():
     ]
     application = FastAPI(
         title="MirumApp",
-        openapi_tags=tags_metadata
+        openapi_tags=tags_metadata,
+        license_info={
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+        },
     )
     application.include_router(api_router)
     add_pagination(application)
