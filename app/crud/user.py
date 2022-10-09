@@ -19,9 +19,6 @@ def set_admin_rights_for_user(user: schemas.user.UserUpdate, db: Session, curren
     if not db_user:
         raise HTTPException(status_code=400, detail="User not found.")
 
-    if db_user.id == current_user.id or db_user.id == 1:
-        raise HTTPException(status_code=400, detail="Cannot change this user rights.")
-
     if user.is_admin is not None:
         db_user.is_admin = user.is_admin
     if user.have_access is not None:
