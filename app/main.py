@@ -11,7 +11,28 @@ Base.metadata.create_all(bind=engine)
 
 
 def get_application():
-    application = FastAPI()
+    tags_metadata = [
+        {
+            "name": "users",
+            "description": "Operations with users.",
+        },
+        {
+            "name": "rooms",
+            "description": "Operations with rooms.",
+        },
+        {
+            "name": "commands",
+            "description": "Operations with commands.",
+        },
+        {
+            "name": "app",
+            "description": "Get last update for application.",
+        },
+    ]
+    application = FastAPI(
+        title="MirumApp",
+        openapi_tags=tags_metadata
+    )
     application.include_router(api_router)
     add_pagination(application)
     return application
