@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
+from fastapi import HTTPException, WebSocket, WebSocketDisconnect
 import schemas.command
 import models.user
 import models.command
+import core.global_variables
 
 
 def get_commands(db: Session, current_user: models.user.User):
@@ -11,7 +12,16 @@ def get_commands(db: Session, current_user: models.user.User):
     return db.query(models.command.Command).filter(models.command.Command.receiver_id == current_user.id).all()
 
 
-def send_command(command: schemas.command.CommandCreate, db: Session, current_user: models.user.User):
+async def ws_get_commands(websocket: WebSocket, current_user: models.user.User):
+    await core.global_variables.socket_manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        await core.global_variables.socket_manager.disconnect(websocket)
+
+
+async def send_command(command: schemas.command.CommandCreate, db: Session, current_user: models.user.User):
     if not current_user.is_admin:
         raise HTTPException(status_code=403)
     admins = db.query(models.user.User).filter(models.user.User.receives_commands == True)
@@ -24,6 +34,7 @@ def send_command(command: schemas.command.CommandCreate, db: Session, current_us
             db.add(db_command)
             db.commit()
             db.refresh(db_command)
+        await core.global_variables.socket_manager.broadcast({"status": "updated"})
     else:
         pass
     return db_command
