@@ -46,6 +46,7 @@ pypika-tortoise==0.1.6
 pyTelegramBotAPI==4.7.0
 python-dotenv==0.21.0
 python-jose==3.3.0
+python-multipart==0.0.5
 pytz==2022.2.1
 PyYAML==6.0
 requests==2.28.1
@@ -67,4 +68,3 @@ uvicorn==0.18.3
 uvloop==0.17.0
 watchfiles==0.17.0
 websockets==10.3
-psycopg2==2.9.4
