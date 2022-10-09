@@ -8,6 +8,7 @@ import crud.command
 import crud.app
 import core.deps
 import core.global_variables
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 auth_router = APIRouter()
@@ -19,7 +20,7 @@ async def create_user(user: schemas.user.UserCreate, db: Session = Depends(core.
 
 
 @auth_router.post("/login")
-async def login(user: schemas.user.UserLogin, db: Session = Depends(core.deps.get_db)):
+async def login(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(core.deps.get_db)):
     return crud.auth.login_user(user, db)
 
 

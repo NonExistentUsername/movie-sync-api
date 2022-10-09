@@ -5,6 +5,7 @@ import schemas.user
 import models.user
 from core.auth import create_access_token
 from crud.user import get_user_by_username
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 def register_user(user: schemas.user.UserCreate, db: Session):
@@ -19,7 +20,7 @@ def register_user(user: schemas.user.UserCreate, db: Session):
     return db_user
 
 
-def login_user(user: schemas.user.UserLogin, db: Session):
+def login_user(user: OAuth2PasswordRequestForm, db: Session):
     db_user = get_user_by_username(db, user.username)
     if not db_user:
         raise HTTPException(status_code=401, detail="User with this username is not registered.")
