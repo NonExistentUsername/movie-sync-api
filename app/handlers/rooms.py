@@ -29,7 +29,7 @@ async def get_room(
     return paginate(crud.room.get_room(room_name, db, current_user))
 
 
-@rooms_router.post("/create", response_model=schemas.room.Room)
+@rooms_router.post("/create", response_model=schemas.room.Room, status_code=201)
 async def create_room(
         room_name: str,
         capacity: int = 10,
