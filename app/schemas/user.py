@@ -1,15 +1,7 @@
 from pydantic import BaseModel, Field, validator
-
+from schemas.validators import is_slug
 from typing import Optional, List
 import re
-
-
-def is_valid_username(username: str) -> bool:
-    regex_name = re.compile(r'^(?=.{3,64}$)[a-zA-Z_]\w*$', re.IGNORECASE)
-    result = regex_name.search(username)
-    if result and result.string == username:
-        return True
-    return False
 
 
 class UserBase(BaseModel):
@@ -18,7 +10,7 @@ class UserBase(BaseModel):
     @classmethod
     @validator("username")
     def validate_username(cls, v):
-        if not is_valid_username(v):
+        if not is_slug(v, 3, 64):
             raise ValueError("Username can contain letters, numbers and underscore.")
         return v
 
