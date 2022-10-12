@@ -21,6 +21,14 @@ async def get_rooms(
     return paginate(crud.room.get_rooms(db, current_user))
 
 
+@rooms_router.get("/room", response_model=schemas.room.Room)
+async def get_room(
+        room_name: str,
+        db: Session = Depends(core.deps.get_db),
+        current_user: models.user.User = Depends(core.deps.get_current_user)):
+    return paginate(crud.room.get_room(room_name, db, current_user))
+
+
 @rooms_router.post("/create", response_model=schemas.room.Room)
 async def create_room(
         room_name: str,

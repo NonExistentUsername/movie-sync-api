@@ -13,6 +13,15 @@ def get_rooms(db: Session, current_user: models.user.User):
     return current_user.member_of_rooms
 
 
+def get_room(room_name: str, db: Session, current_user: models.user.User):
+    if not current_user.have_access:
+        raise HTTPException(status_code=403, detail="You don't have access.")
+    db_room = db.query(models.room.Room).filter(current_user in models.room.Room.members_of_room).first()
+    if db_room is None:
+        raise HTTPException(status_code=404, detail="Not found")
+    return db_room
+
+
 def create_room(room_name: str, db: Session, current_user: models.user.User):
     if not current_user.have_access:
         raise HTTPException(status_code=403, detail="You don't have access.")
