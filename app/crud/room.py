@@ -3,6 +3,7 @@ from fastapi import HTTPException, WebSocket, WebSocketDisconnect
 import schemas.command
 import models.user
 import schemas.room
+from typing import Optional
 import models.room
 from models.associations import user_room_member_association_table
 
@@ -16,8 +17,8 @@ def get_rooms(db: Session, current_user: models.user.User):
 def get_room(room_name: str, db: Session, current_user: models.user.User):
     if not current_user.have_access:
         raise HTTPException(status_code=403, detail="You don't have access.")
-    db_room = db.query(models.room.Room).filter(current_user in models.room.Room.members_of_room).first()
-    if db_room is None:
+    db_room: Optional[models.room.Room] = db.query(models.room.Room).filter(models.room.Room == room_name).first()
+    if db_room is None or current_user not in db_room.members_of_room:
         raise HTTPException(status_code=404, detail="Not found")
     return db_room
 
