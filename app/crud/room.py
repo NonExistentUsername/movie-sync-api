@@ -23,7 +23,7 @@ def get_room(room_name: str, db: Session, current_user: models.user.User):
     return db_room
 
 
-def create_room(room_name: str, db: Session, current_user: models.user.User):
+def create_room(room_name: str, capacity: int, db: Session, current_user: models.user.User):
     if not current_user.have_access:
         raise HTTPException(status_code=403, detail="You don't have access.")
 
@@ -33,7 +33,7 @@ def create_room(room_name: str, db: Session, current_user: models.user.User):
     if db.query(models.room.Room).filter(models.room.Room.creator_id == current_user.id).count() == 10:
         raise HTTPException(status_code=400, detail="You have created 10/10 rooms. Delete a room to create another.")
 
-    room_db = models.room.Room(name=room_name, creator_id=current_user.id)
+    room_db = models.room.Room(name=room_name, capacity=capacity, creator_id=current_user.id)
     room_db.members_of_room.append(current_user)
     db.add(room_db)
     db.commit()

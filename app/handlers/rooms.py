@@ -32,9 +32,10 @@ async def get_room(
 @rooms_router.post("/create", response_model=schemas.room.Room)
 async def create_room(
         room_name: str,
+        capacity: int = 10,
         db: Session = Depends(core.deps.get_db),
         current_user: models.user.User = Depends(core.deps.get_current_user)):
-    return crud.room.create_room(room_name, db, current_user)
+    return crud.room.create_room(room_name, capacity, db, current_user)
 
 
 @rooms_router.post("/join")

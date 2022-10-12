@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import Optional, List
 
 
@@ -12,6 +12,7 @@ class UserMinimal(BaseModel):
 
 class RoomBase(BaseModel):
     name: str = Field(max_length=32, min_length=4)
+    capacity: int = Field(default=10, ge=2, le=32)
 
 
 class RoomJoin(BaseModel):
@@ -19,13 +20,11 @@ class RoomJoin(BaseModel):
     key: str = Field(max_length=8, min_length=8)
 
 
-class Room(BaseModel):
+class Room(RoomBase):
     id: int
-    name: str
     key: str
     creator_id: int
     members_of_room: List[UserMinimal]
 
     class Config:
         orm_mode = True
-
