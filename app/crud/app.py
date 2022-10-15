@@ -9,19 +9,15 @@ import core.config
 from starlette.responses import FileResponse
 
 
-def get_last_app_update(current_user: models.user.User):
-    if not current_user.is_admin and not current_user.receives_commands:
-        raise HTTPException(status_code=403)
-
-    time = os.path.getmtime(os.path.join(core.config.BASE_DIR, "media/app.py"))
+def get_last_app_update():
+    time = os.path.getmtime(os.path.join(core.config.BASE_DIR, "media/app.zip"))
 
     return {
         "last_update": datetime.datetime.fromtimestamp(time)
     }
 
 
-def download_app(current_user: models.user.User):
-    if not current_user.is_admin and not current_user.receives_commands:
-        raise HTTPException(status_code=403)
-
-    return FileResponse(os.path.join(core.config.BASE_DIR, "media/app.py"), media_type='application/octet-stream', filename="app.py")
+def download_app():
+    return FileResponse(os.path.join(core.config.BASE_DIR, "media/app.zip"),
+                        media_type='application/octet-stream',
+                        filename="app.zip")
