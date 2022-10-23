@@ -20,7 +20,7 @@ def set_admin_rights_for_user(user: schemas.user.UserUpdate, db: Session, curren
     if user.is_admin is not None:
         db_user.is_admin = user.is_admin
     if user.have_access is not None:
-        db_user.receives_commands = user.have_access
+        db_user.have_access = user.have_access
     db.commit()
     db.refresh(db_user)
     return db_user
