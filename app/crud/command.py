@@ -13,13 +13,16 @@ def get_commands(db: Session, current_user: models.user.User):
     return db.query(models.command.Command).filter(models.command.Command.receiver_id == current_user.id).all()
 
 
-async def ws_get_commands(websocket: WebSocket, current_user: models.user.User):
-    await core.global_variables.socket_manager.connect(websocket)
+async def ws_get_commands(websocket: WebSocket, current_user: models.user.User, db: Session):
+    await core.global_variables.socket_manager.connect(current_user.id, websocket)
+    commands = db.query(models.command.Command).filter(models.command.Command.receiver_id == current_user.id)
+    for command in commands:
+        await core.global_variables.socket_manager.broadcast(command)
     try:
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
-        await core.global_variables.socket_manager.disconnect(websocket)
+        await core.global_variables.socket_manager.disconnect(current_user.id, websocket)
 
 
 async def send_command(command: schemas.command.CommandCreate, db: Session, current_user: models.user.User):
@@ -37,14 +40,14 @@ async def send_command(command: schemas.command.CommandCreate, db: Session, curr
         db.add(db_command)
         db.commit()
         db.refresh(db_command)
-        await core.global_variables.socket_manager.broadcast({"status": "updated"})
+        await core.global_variables.socket_manager.broadcast(db_command)
     else:
         pass
     return db_command
 
 
 def delete_commands(commands: schemas.command.CommandDelete, db: Session, current_user: models.user.User):
-    if not current_user.receives_commands:
+    if not current_user.have_access:
         raise HTTPException(status_code=403)
 
     deleted_commands = []

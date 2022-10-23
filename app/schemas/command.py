@@ -20,10 +20,20 @@ class CommandDeleted(BaseModel):
     deleted_commands: List[int]
 
 
+class CommandMini(CommandBase):
+    sender_id: int
+    room_id: int
+    create_date: datetime.datetime
+
+    class Config:
+        orm_mode = True
+
+
 class Command(CommandBase):
     id: int
     sender_id: int
-    room_name: str
+    receiver_id: int
+    room_id: int
     create_date: datetime.datetime
 
     class Config:

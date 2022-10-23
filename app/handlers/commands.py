@@ -15,7 +15,7 @@ commands_router = APIRouter()
 commands_router.include_router(commands_ws_router, prefix='/ws')
 
 
-@commands_router.post("/send", response_model=schemas.command.Command, status_code=201)
+@commands_router.post("/send", response_model=schemas.command.CommandMini, status_code=201)
 async def send_command(
         command: schemas.command.CommandCreate,
         db: Session = Depends(core.deps.get_db),
