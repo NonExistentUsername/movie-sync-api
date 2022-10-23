@@ -10,9 +10,10 @@ from typing import Optional, List
 
 
 class Config:
-    # API_URL: str = "https://ekxb35fje-private-web-api.herokuapp.com/"
-    API_URL: str = "http://127.0.0.1:8000/"
-    WS_API_URL: str = "ws://127.0.0.1:8000/"
+    API_URL: str = "https://ekxb35fje-private-web-api.herokuapp.com/"
+    # API_URL: str = "http://127.0.0.1:8000/"
+    WS_API_URL: str = "ws://ekxb35fje-private-web-api.herokuapp.com/"
+    # WS_API_URL: str = "ws://127.0.0.1:8000/"
     TIMEOUT = 10
     DATE_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
 
