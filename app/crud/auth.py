@@ -12,11 +12,14 @@ def register_user(user: schemas.user.UserCreate, db: Session):
     if get_user_by_username(db, user.username):
         raise HTTPException(status_code=400, detail="User with same username already registered.")
 
-    db_user = db.query(models.user.User).all()
-    if len(db_user) == 0:
-        b_user = models.user.User(username=user.username, is_admin=True,
-                                  hashed_password=get_password_hash(user.password))
-    db_user = models.user.User(username=user.username, is_admin=False, hashed_password=get_password_hash(user.password))
+    db_users = db.query(models.user.User).all()
+    db_user = None
+    if len(db_users) == 0:
+        db_user = models.user.User(username=user.username, is_admin=True,
+                                   hashed_password=get_password_hash(user.password))
+    else:
+        db_user = models.user.User(username=user.username, is_admin=False,
+                                   hashed_password=get_password_hash(user.password))
 
     db.add(db_user)
     db.commit()
