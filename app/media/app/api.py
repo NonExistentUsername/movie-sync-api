@@ -38,7 +38,7 @@ class Config:
         "kick_member": "rooms/kick_member",
 
         # COMMANDS
-        "send_command": "commands/send_command",
+        "send_command": "commands/send",
         "ws_get_commands": "commands/ws/get_commands",
         "delete_commands": "commands/delete_commands",
 
@@ -204,6 +204,39 @@ class Command:
         return self.__create_date
 
 
+class CommandCreated:
+    def __init__(self,
+                 command: str,
+                 param: str,
+                 sender_id: int,
+                 room_id: int,
+                 create_date: datetime):
+        self.__command = command
+        self.__param = param
+        self.__sender_id = sender_id
+        self.__room_id = room_id
+        self.__create_date = create_date
+
+    @property
+    def command(self) -> str:
+        return self.__command
+
+    @property
+    def param(self) -> Optional[str]:
+        return self.__param
+
+    @property
+    def sender_id(self) -> int:
+        return self.__sender_id
+
+    @property
+    def room_id(self) -> int:
+        return self.__room_id
+
+    @property
+    def create_date(self) -> datetime:
+        return self.__create_date
+
 class Page:
     def __init__(self, items: list, total: int, page: int, size: int, get_page_func=None):
         self.__items = items
@@ -284,19 +317,28 @@ class Api:
         else:
             message = response.text
             try:
-                message = response.json()["detail"]
+                message = str(response.json()["detail"])
             except Exception as e:
                 pass
             raise ApiException(message)
 
     @classmethod
     def _command_object_from_json(cls, data) -> Command:
+        print(data)
         return Command(command_id=data["id"],
                        command=data["command"],
                        param=data["param"],
                        sender_id=data["sender_id"],
                        room_id=data["room_id"],
                        create_date=Api._get_datetime(data["create_date"]))
+
+    @classmethod
+    def _command_created_object_from_json(cls, data) -> CommandCreated:
+        return CommandCreated(command=data["command"],
+                              param=data["param"],
+                              sender_id=data["sender_id"],
+                              room_id=data["room_id"],
+                              create_date=Api._get_datetime(data["create_date"]))
 
     @classmethod
     def _page_object_from_json(cls, data, get_page_func=None, convert_item_func=None) -> Page:
@@ -501,7 +543,7 @@ class Api:
                      authorization: Authorization,
                      room_name: str,
                      command: str,
-                     param: Optional[str] = None) -> Command:
+                     param: Optional[str] = None) -> CommandCreated:
         headers = Api.make_authorization_headers(authorization)
         request_json = {
             "command": command,
@@ -510,7 +552,7 @@ class Api:
         if param is not None:
             request_json["param"] = param
         response = requests.post(Api._get_path("send_command"), headers=headers, json=request_json)
-        return Api._command_object_from_json(Api._json_result_from_response(response))
+        return Api._command_created_object_from_json(Api._json_result_from_response(response))
 
     @classmethod
     async def ws_get_command(cls, authorization: Authorization, callback_function) -> None:
@@ -637,13 +679,14 @@ class Client:
     def kick_member(self, room_name: str, username: str) -> bool:
         return Api.kick_member(self.__authorization, room_name, username)
 
-    def send_command(self, room_name: str, command: str, param: Optional[str] = None) -> Command:
+    def send_command(self, room_name: str, command: str, param: Optional[str] = None) -> CommandCreated:
         return Api.send_command(self.__authorization, room_name, command, param)
 
     def __auto_delete_commands_callback_function_decorator(self, callback_function):
         def auto_delete_commands_callback_function(command: Command):
-            callback_function(command)
+            result = callback_function(command)
             Api.delete_commands(self.__authorization, [command.id])
+            return result
         return auto_delete_commands_callback_function
 
     async def ws_get_command(self, callback_function) -> None:
