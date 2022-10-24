@@ -1,9 +1,7 @@
 from starlette.config import Config
 import os
 
-DEBUG = bool(os.getenv("DEBUG"))
-if DEBUG:
-    1 / 0
+DEBUG = (os.getenv("DEBUG") == "True")
 
 if DEBUG:
     config = Config(".env")
@@ -20,7 +18,6 @@ else:
     DATABASE_URL = str(os.getenv('DATABASE_URL'))
     # Replace 'postgres' to 'postgresql'
     DATABASE_URL = "postgresql" + DATABASE_URL[8:]
-    print(f"used {DATABASE_URL}")
     
     BASE_DIR = str(os.getenv("BASE_DIR"))
     ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
