@@ -20,8 +20,8 @@ async def get_users(db: Session = Depends(core.deps.get_db), current_user: model
 
 
 @users_router.get("/user", response_model=schemas.user.User)
-async def get_user(nickname: str, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
-    return crud.user.get_user(nickname, db, current_user)
+async def get_user(username: str, db: Session = Depends(core.deps.get_db), current_user: models.user.User = Depends(core.deps.get_current_user)):
+    return crud.user.get_user(username, db, current_user)
 
 
 @users_router.post("/update", response_model=schemas.user.User)
