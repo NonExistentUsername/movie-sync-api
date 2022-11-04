@@ -561,6 +561,7 @@ class Api:
             try:
                 async with websockets.connect(Api._get_path("ws_get_commands") + f'?token={authorization.token}',
                                               timeout=5) as websocket:
+                    print("Connected")
                     while running_flag:
                         command = await websocket.recv()
                         running_flag = callback_function(Api._command_object_from_json(json.loads(json.loads(command))))
