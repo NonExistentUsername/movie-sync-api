@@ -7,7 +7,7 @@ from datetime import datetime
 import websockets
 import jwt
 from typing import Optional, List
-
+import time
 
 class Config:
     API_URL: str = "https://ekxb35fje-private-web-api.herokuapp.com/"
@@ -556,12 +556,18 @@ class Api:
 
     @classmethod
     async def ws_get_command(cls, authorization: Authorization, callback_function) -> None:
-        async with websockets.connect(Api._get_path("ws_get_commands") + f'?token={authorization.token}',
-                                      timeout=5) as websocket:
-            running_flag = True
-            while running_flag:
-                command = await websocket.recv()
-                running_flag = callback_function(Api._command_object_from_json(json.loads(json.loads(command))))
+        running_flag = True
+        while running_flag:
+            try:
+                async with websockets.connect(Api._get_path("ws_get_commands") + f'?token={authorization.token}',
+                                              timeout=5) as websocket:
+                    while running_flag:
+                        command = await websocket.recv()
+                        running_flag = callback_function(Api._command_object_from_json(json.loads(json.loads(command))))
+            except Exception as e:
+                print("Connection broken.")
+                time.sleep(0.25)
+                print("Reconnecting..")
 
     @classmethod
     def delete_commands(cls, authorization: Authorization, commands: List[int]) -> DeletedCommands:
