@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY requirements.txt /app
 
-RUN pip install -r requirements.txt
 RUN apt install gcc
+RUN pip install -r requirements.txt
 
 COPY . .
 
