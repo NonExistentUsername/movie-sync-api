@@ -10,8 +10,8 @@ from typing import Optional, List
 
 
 class Config:
-    API_URL: str = "http://web-api:8000/"
-    WS_API_URL: str = "ws://web-api:8000/"
+    API_URL: str = "http://127.0.0.1:8000/"
+    WS_API_URL: str = "ws://127.0.0.1:8000/"
     TIMEOUT = 10
     DATE_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
 
