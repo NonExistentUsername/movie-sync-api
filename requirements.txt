@@ -44,7 +44,7 @@ pymongo==4.2.0
 PyMySQL==1.0.2
 pynput==1.7.6
 pypika-tortoise==0.1.6
-pyTelegramBotAPI==4.7.0
+pyTelegramBotAPI==4.7.1
 python-dotenv==0.21.0
 python-jose==3.3.0
 python-multipart==0.0.5
