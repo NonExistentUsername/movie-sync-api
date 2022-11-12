@@ -7,7 +7,8 @@ services:
     ports:
       - "3306:3306"
     env_file:
-      - .db_env
+      - MYSQL_DATABASE=mirumdb
+      - MYSQL_ROOT_PASSWORD=rootpassword
     volumes:
       - my-db:/var/lib/mysql
     networks:
