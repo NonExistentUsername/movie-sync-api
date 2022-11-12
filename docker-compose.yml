@@ -15,6 +15,7 @@ services:
   web-api:
     build: .
     restart: always
+    hostname: web-api
     working_dir: /app
     ports:
       - "80:8000"
