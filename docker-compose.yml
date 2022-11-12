@@ -6,7 +6,7 @@ services:
     hostname: db
     ports:
       - "3306:3306"
-    environment:
+    env_file:
       - MYSQL_DATABASE=mirumdb
       - MYSQL_ROOT_PASSWORD=rootpassword
     volumes:
