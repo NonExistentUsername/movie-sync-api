@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    hostname: db
+    ports:
+      - "3306:3306"
+    env_file:
+      - .db_env
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+    - backend-network
+  web-api:
+    build: .
+    restart: always
+    working_dir: /app
+    ports:
+      - "80:8000"
+    volumes:
+      - ./app:/app
+    env_file:
+      - .env
+    networks:
+    - backend-network
+volumes:
+  my-db:
+networks:
+  backend-network:
+    driver: bridge
