@@ -4,15 +4,10 @@ from api import Client
 import time
 import sys
 import os
-from flask import Flask, request
 
-# USER_LOGIN = os.getenv("USER_LOGIN")
-# USER_PASSWORD = os.getenv("USER_PASSWORD")
-# API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
-# WEBHOOK_URL = os.getenv("WEBHOOK_URL")
-USER_LOGIN = "bot_admin"
-USER_PASSWORD = "5nCMdGI67%zw"
-API_TOKEN = "5229850971:AAH_GD0tJEfSY5bvbjIbi89D_uv7C5pRqEw"
+USER_LOGIN = os.getenv("USER_LOGIN")
+USER_PASSWORD = os.getenv("USER_PASSWORD")
+API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
 
 ADMINS = [472519122, 1028805497]
 

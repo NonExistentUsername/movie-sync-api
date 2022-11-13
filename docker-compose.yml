@@ -29,6 +29,8 @@ services:
     build: ./telegram_bot
     restart: always
     working_dir: /app
+    env_file:
+      - ./telegram_bot/.env
     networks:
     - backend-network
     volumes:
