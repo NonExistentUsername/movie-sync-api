@@ -10,9 +10,9 @@ from typing import Optional, List
 import time
 
 class Config:
-    API_URL: str = "http://134.209.241.193:80/"
+    API_URL: str = "http://165.227.143.187:80/"
     # API_URL: str = "http://127.0.0.1:8000/"
-    WS_API_URL: str = "ws://134.209.241.193:80/"
+    WS_API_URL: str = "ws://165.227.143.187:80/"
     # WS_API_URL: str = "ws://127.0.0.1:8000/"
     TIMEOUT = 10
     DATE_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
