@@ -1,14 +1,14 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
 import core.deps
 import core.global_variables
-import crud.app
 import crud.command
 import crud.user
 import models.user
 import schemas.app
 import schemas.command
-from fastapi import APIRouter, Depends
 from handlers.commands_ws import commands_ws_router
-from sqlalchemy.orm import Session
 
 commands_router = APIRouter()
 commands_router.include_router(commands_ws_router, prefix="/ws")

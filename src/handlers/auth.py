@@ -1,14 +1,14 @@
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
+
 import core.deps
 import core.global_variables
-import crud.app
 import crud.auth
 import crud.command
 import models.user
 import schemas.app
 import schemas.user
-from fastapi import APIRouter, Depends
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
 
 auth_router = APIRouter()
 

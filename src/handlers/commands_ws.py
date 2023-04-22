@@ -1,11 +1,11 @@
+from fastapi import APIRouter, Depends, WebSocket
+from sqlalchemy.orm import Session
+
 import core.deps
 import core.global_variables
-import crud.app
 import crud.command
 import crud.user
 import models.user
-from fastapi import APIRouter, Depends, WebSocket
-from sqlalchemy.orm import Session
 
 commands_ws_router = APIRouter()
 
