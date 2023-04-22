@@ -14,16 +14,12 @@ auth_router = APIRouter()
 
 
 @auth_router.post("/register", response_model=schemas.user.User, status_code=201)
-async def create_user(
-    user: schemas.user.UserCreate, db: Session = Depends(core.deps.get_db)
-):
+async def create_user(user: schemas.user.UserCreate, db: Session = Depends(core.deps.get_db)):
     return crud.auth.register_user(user, db)
 
 
 @auth_router.post("/login")
-async def login(
-    user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(core.deps.get_db)
-):
+async def login(user: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(core.deps.get_db)):
     return crud.auth.login_user(user, db)
 
 

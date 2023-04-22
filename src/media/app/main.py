@@ -2,9 +2,7 @@ import threading
 
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QWidget, QApplication
-from PyQt6.QtCore import (
-    Qt, QObject, pyqtSignal, QRunnable, pyqtSlot, QThreadPool, QCoreApplication, QEvent
-)
+from PyQt6.QtCore import Qt, QObject, pyqtSignal, QRunnable, pyqtSlot, QThreadPool, QCoreApplication, QEvent
 from datetime import datetime
 from app.api import *
 import requests
@@ -19,7 +17,7 @@ APP_DOWNLOAD_URL: str = "http://127.0.0.1:8000/app/download"
 DATE_FORMAT: str = "%Y-%m-%dT%H:%M:%S.%f"
 
 EXCLUDE_PATHS = [
-    '__MACOSX/',
+    "__MACOSX/",
 ]
 
 
@@ -117,9 +115,9 @@ class RegisterWindow(QWidget):
 
     def try_register_clicked(self):
         if self.password.text() != self.cofirm_password.text():
-            result = QtWidgets.QMessageBox.critical(self,
-                                                    "Error", "Passwords doesn't match.",
-                                                    QtWidgets.QMessageBox.StandardButton.Close)
+            result = QtWidgets.QMessageBox.critical(
+                self, "Error", "Passwords doesn't match.", QtWidgets.QMessageBox.StandardButton.Close
+            )
         else:
             self.try_register.emit(self.username.text(), self.password.text())
 
@@ -192,8 +190,7 @@ class JoinRoomWindow(QWidget):
         join_room_button = QtWidgets.QPushButton("Join room")
         join_room_button.setFixedWidth(100)
         join_room_button.setMaximumHeight(45)
-        join_room_button.clicked.connect(lambda: self.try_join_room.emit(self.room_name.text(),
-                                                                         self.room_key.text()))
+        join_room_button.clicked.connect(lambda: self.try_join_room.emit(self.room_name.text(), self.room_key.text()))
 
         layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.room_name)
@@ -215,9 +212,9 @@ class MainWindow(QWidget):
     logout = pyqtSignal()
 
     def __show_error(self, error_message):
-        result = QtWidgets.QMessageBox.critical(self,
-                                                "Error", str(error_message),
-                                                QtWidgets.QMessageBox.StandardButton.Close)
+        result = QtWidgets.QMessageBox.critical(
+            self, "Error", str(error_message), QtWidgets.QMessageBox.StandardButton.Close
+        )
 
     def __get_all_rooms(self) -> List[Room]:
         result = []
@@ -278,8 +275,7 @@ class MainWindow(QWidget):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
 
-            loop.run_until_complete(
-                self.client.ws_get_command(self.__receive_command))
+            loop.run_until_complete(self.client.ws_get_command(self.__receive_command))
             loop.close()
         self.start_button.setDisabled(False)
 
@@ -394,9 +390,9 @@ class Controller:
         parent = self.login_window or self.main_window or self.register_window
 
         if parent:
-            result = QtWidgets.QMessageBox.critical(self.login_window,
-                                                    "Error", str(error_message),
-                                                    QtWidgets.QMessageBox.StandardButton.Close)
+            result = QtWidgets.QMessageBox.critical(
+                self.login_window, "Error", str(error_message), QtWidgets.QMessageBox.StandardButton.Close
+            )
 
     def try_register(self, username: str, password: str):
         try:

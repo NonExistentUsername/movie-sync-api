@@ -9,6 +9,7 @@ import jwt
 from typing import Optional, List
 import time
 
+
 class Config:
     API_URL: str = "http://134.209.241.193:80/"
     # API_URL: str = "http://127.0.0.1:8000/"
@@ -22,12 +23,10 @@ class Config:
         "register": "auth/register",
         "login": "auth/login",
         "get_me": "auth/me",
-
         # USERS
         "get_users": "users",
         "get_user": "users/user",
         "update_rights": "users/update_user",
-
         # ROOMS
         "get_rooms": "rooms",
         "get_room": "rooms/room",
@@ -36,12 +35,10 @@ class Config:
         "leave_room": "rooms/leave",
         "delete_room": "rooms/delete",
         "kick_member": "rooms/kick_member",
-
         # COMMANDS
         "send_command": "commands/send",
         "ws_get_commands": "commands/ws/get_commands",
         "delete_commands": "commands/delete_commands",
-
         # APP
         "get_last_update_app": "app/last_update",
         "download_app": "app/download",
@@ -49,8 +46,8 @@ class Config:
 
 
 class ApiStatus(Enum):
-    OK = 1,
-    ERROR = 2,
+    OK = (1,)
+    ERROR = (2,)
 
 
 class ApiException(Exception):
@@ -165,13 +162,7 @@ class Room:
 
 
 class Command:
-    def __init__(self,
-                 command_id: int,
-                 command: str,
-                 param: str,
-                 sender_id: int,
-                 room_id: int,
-                 create_date: datetime):
+    def __init__(self, command_id: int, command: str, param: str, sender_id: int, room_id: int, create_date: datetime):
         self.__command_id = command_id
         self.__command = command
         self.__param = param
@@ -205,12 +196,7 @@ class Command:
 
 
 class CommandCreated:
-    def __init__(self,
-                 command: str,
-                 param: str,
-                 sender_id: int,
-                 room_id: int,
-                 create_date: datetime):
+    def __init__(self, command: str, param: str, sender_id: int, room_id: int, create_date: datetime):
         self.__command = command
         self.__param = param
         self.__sender_id = sender_id
@@ -236,6 +222,7 @@ class CommandCreated:
     @property
     def create_date(self) -> datetime:
         return self.__create_date
+
 
 class Page:
     def __init__(self, items: list, total: int, page: int, size: int, get_page_func=None):
@@ -275,13 +262,13 @@ class Page:
 class Api:
     @classmethod
     def verify_authorization(cls, authorization: Authorization) -> bool:
-        if not authorization.token_type.lower() == 'bearer':
-            raise ApiException(f'Token type {authorization.token_type} does\'t supported.')
+        if not authorization.token_type.lower() == "bearer":
+            raise ApiException(f"Token type {authorization.token_type} does't supported.")
 
         decoded = jwt.decode(authorization.token, options={"verify_signature": False})
         exp = datetime.fromtimestamp(decoded["exp"])
         if datetime.now() > exp:
-            raise OldTokenApiException('Old token.')
+            raise OldTokenApiException("Old token.")
 
         return True
 
@@ -289,10 +276,8 @@ class Api:
     def make_authorization_headers(cls, authorization: Authorization) -> dict:
         if not Api.verify_authorization(authorization):
             return {}
-        if authorization.token_type.lower() == 'bearer':
-            return {
-                "Authorization": 'Bearer ' + authorization.token
-            }
+        if authorization.token_type.lower() == "bearer":
+            return {"Authorization": "Bearer " + authorization.token}
         return {}
 
     @classmethod
@@ -308,7 +293,7 @@ class Api:
         try:
             return datetime.strptime(date, Config.DATE_FORMAT)
         except Exception as e:
-            return datetime.strptime(date, Config.DATE_FORMAT + '.%f')
+            return datetime.strptime(date, Config.DATE_FORMAT + ".%f")
 
     @classmethod
     def _json_result_from_response(cls, response):
@@ -325,20 +310,24 @@ class Api:
     @classmethod
     def _command_object_from_json(cls, data) -> Command:
         print(data)
-        return Command(command_id=data["id"],
-                       command=data["command"],
-                       param=data["param"],
-                       sender_id=data["sender_id"],
-                       room_id=data["room_id"],
-                       create_date=Api._get_datetime(data["create_date"]))
+        return Command(
+            command_id=data["id"],
+            command=data["command"],
+            param=data["param"],
+            sender_id=data["sender_id"],
+            room_id=data["room_id"],
+            create_date=Api._get_datetime(data["create_date"]),
+        )
 
     @classmethod
     def _command_created_object_from_json(cls, data) -> CommandCreated:
-        return CommandCreated(command=data["command"],
-                              param=data["param"],
-                              sender_id=data["sender_id"],
-                              room_id=data["room_id"],
-                              create_date=Api._get_datetime(data["create_date"]))
+        return CommandCreated(
+            command=data["command"],
+            param=data["param"],
+            sender_id=data["sender_id"],
+            room_id=data["room_id"],
+            create_date=Api._get_datetime(data["create_date"]),
+        )
 
     @classmethod
     def _page_object_from_json(cls, data, get_page_func=None, convert_item_func=None) -> Page:
@@ -355,7 +344,7 @@ class Api:
     @classmethod
     def _authorization_from_json(cls, data: dict) -> Optional[Authorization]:
         if "token_type" not in data or "access_token" not in data:
-            raise ApiException('Unknown authorization type.')
+            raise ApiException("Unknown authorization type.")
 
         authorization = Authorization(token=data["access_token"], token_type=data["token_type"])
         if Api.verify_authorization(authorization):
@@ -379,19 +368,21 @@ class Api:
 
     @classmethod
     def _room_from_json(cls, data: dict) -> Room:
-        return Room(data["id"],
-                    data["name"],
-                    data["key"],
-                    data["creator_id"],
-                    Api._room_members_from_json(data["members_of_room"]))
+        return Room(
+            data["id"],
+            data["name"],
+            data["key"],
+            data["creator_id"],
+            Api._room_members_from_json(data["members_of_room"]),
+        )
 
     @classmethod
     def _deleted_commands_from_json(cls, data: dict) -> DeletedCommands:
         return DeletedCommands(data["deleted_commands"])
 
-####################################################################################
-#       AUTH
-####################################################################################
+    ####################################################################################
+    #       AUTH
+    ####################################################################################
     @classmethod
     def register(cls, username: str, password: str) -> User:
         request_body = {
@@ -409,9 +400,7 @@ class Api:
             "username": username,
             "password": password,
         }
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
         response = requests.post(Api._get_path("login"), headers=headers, data=request_body)
         return Api._authorization_from_json(Api._json_result_from_response(response))
@@ -423,9 +412,9 @@ class Api:
         result = Api._json_result_from_response(response)
         return Api._user_object_from_json(result)
 
-####################################################################################
-#       USERS
-####################################################################################
+    ####################################################################################
+    #       USERS
+    ####################################################################################
     @classmethod
     def get_users(cls, authorization: Authorization, page: int = 1, size: int = 50) -> Page:
         headers = Api.make_authorization_headers(authorization)
@@ -434,8 +423,9 @@ class Api:
             "size": size,
         }
         response = requests.get(Api._get_path("get_users"), headers=headers, params=params)
-        return Api._page_object_from_json(Api._json_result_from_response(response),
-                                          convert_item_func=Api._user_object_from_json)
+        return Api._page_object_from_json(
+            Api._json_result_from_response(response), convert_item_func=Api._user_object_from_json
+        )
 
     @classmethod
     def get_user(cls, authorization: Authorization, username: str) -> User:
@@ -447,8 +437,13 @@ class Api:
         return Api._user_object_from_json(Api._json_result_from_response(response))
 
     @classmethod
-    def update_rights(cls, authorization: Authorization, username: str,
-                      is_admin: Optional[bool] = None, have_access: Optional[bool] = None) -> User:
+    def update_rights(
+        cls,
+        authorization: Authorization,
+        username: str,
+        is_admin: Optional[bool] = None,
+        have_access: Optional[bool] = None,
+    ) -> User:
         headers = Api.make_authorization_headers(authorization)
         request_json = {
             "username": username,
@@ -460,9 +455,9 @@ class Api:
         response = requests.post(Api._get_path("update_rights"), headers=headers, json=request_json)
         return Api._user_object_from_json(Api._json_result_from_response(response))
 
-####################################################################################
-#       ROOMS
-####################################################################################
+    ####################################################################################
+    #       ROOMS
+    ####################################################################################
     @classmethod
     def get_rooms(cls, authorization: Authorization, page: int = 1, size: int = 50) -> Page:
         headers = Api.make_authorization_headers(authorization)
@@ -471,14 +466,15 @@ class Api:
             "size": size,
         }
         response = requests.get(Api._get_path("get_rooms"), headers=headers, params=params)
-        return Api._page_object_from_json(Api._json_result_from_response(response),
-                                          convert_item_func=Api._room_from_json)
+        return Api._page_object_from_json(
+            Api._json_result_from_response(response), convert_item_func=Api._room_from_json
+        )
 
     @classmethod
     def get_room(cls, authorization: Authorization, name: str) -> Room:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'room_name': name,
+            "room_name": name,
         }
         response = requests.get(Api._get_path("get_room"), headers=headers, params=params)
         return Api._room_from_json(Api._json_result_from_response(response))
@@ -487,8 +483,8 @@ class Api:
     def create_room(cls, authorization: Authorization, name: str, capacity: int = 10) -> Room:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'room_name': name,
-            'capacity': capacity,
+            "room_name": name,
+            "capacity": capacity,
         }
         response = requests.post(Api._get_path("create_room"), headers=headers, params=params)
         return Api._room_from_json(Api._json_result_from_response(response))
@@ -497,8 +493,8 @@ class Api:
     def join_room(cls, authorization: Authorization, name: str, key: str) -> bool:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'room_name': name,
-            'room_key': key,
+            "room_name": name,
+            "room_key": key,
         }
         response = requests.post(Api._get_path("join_room"), headers=headers, params=params)
         result: dict = Api._json_result_from_response(response)
@@ -508,7 +504,7 @@ class Api:
     def leave_room(cls, authorization: Authorization, name: str) -> bool:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'room_name': name,
+            "room_name": name,
         }
         response = requests.post(Api._get_path("leave_room"), headers=headers, params=params)
         result: dict = Api._json_result_from_response(response)
@@ -518,7 +514,7 @@ class Api:
     def delete_room(cls, authorization: Authorization, name: str) -> bool:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'room_name': name,
+            "room_name": name,
         }
         response = requests.post(Api._get_path("delete_room"), headers=headers, params=params)
         result: dict = Api._json_result_from_response(response)
@@ -528,22 +524,20 @@ class Api:
     def kick_member(cls, authorization: Authorization, username: str, room_name: str) -> bool:
         headers = Api.make_authorization_headers(authorization)
         params = {
-            'username': username,
-            'room_name': room_name,
+            "username": username,
+            "room_name": room_name,
         }
         response = requests.post(Api._get_path("kick_member"), headers=headers, params=params)
         result: dict = Api._json_result_from_response(response)
         return result["status"] == "OK"
 
-####################################################################################
-#       COMMANDS
-####################################################################################
+    ####################################################################################
+    #       COMMANDS
+    ####################################################################################
     @classmethod
-    def send_command(cls,
-                     authorization: Authorization,
-                     room_name: str,
-                     command: str,
-                     param: Optional[str] = None) -> CommandCreated:
+    def send_command(
+        cls, authorization: Authorization, room_name: str, command: str, param: Optional[str] = None
+    ) -> CommandCreated:
         headers = Api.make_authorization_headers(authorization)
         request_json = {
             "command": command,
@@ -559,8 +553,9 @@ class Api:
         running_flag = True
         while running_flag:
             try:
-                async with websockets.connect(Api._get_path("ws_get_commands") + f'?token={authorization.token}',
-                                              timeout=5) as websocket:
+                async with websockets.connect(
+                    Api._get_path("ws_get_commands") + f"?token={authorization.token}", timeout=5
+                ) as websocket:
                     print("Connected")
                     while running_flag:
                         command = await websocket.recv()
@@ -573,15 +568,13 @@ class Api:
     @classmethod
     def delete_commands(cls, authorization: Authorization, commands: List[int]) -> DeletedCommands:
         headers = Api.make_authorization_headers(authorization)
-        request_body = {
-            "commands": commands
-        }
+        request_body = {"commands": commands}
         response = requests.delete(Api._get_path("delete_commands"), headers=headers, json=request_body)
         return Api._deleted_commands_from_json(Api._json_result_from_response(response))
 
-####################################################################################
-#       APPLICATION
-####################################################################################
+    ####################################################################################
+    #       APPLICATION
+    ####################################################################################
     @classmethod
     def get_last_update_app(cls, authorization: Authorization):
         headers = Api.make_authorization_headers(authorization)
@@ -609,10 +602,12 @@ class Client:
         except ApiException as e:
             return None
 
-    def __init__(self,
-                 username: Optional[str] = None,
-                 password: Optional[str] = None,
-                 authorization: Optional[Authorization] = None):
+    def __init__(
+        self,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        authorization: Optional[Authorization] = None,
+    ):
         self.__authorization: Optional[Authorization] = None
 
         if authorization is not None and self.__try_verify_authorization(authorization):
@@ -656,10 +651,7 @@ class Client:
     def get_user(self, username: str) -> User:
         return Api.get_user(self.__authorization, username)
 
-    def update_rights(self,
-                      username: str,
-                      is_admin: Optional[bool] = None,
-                      have_access: Optional[bool] = None) -> User:
+    def update_rights(self, username: str, is_admin: Optional[bool] = None, have_access: Optional[bool] = None) -> User:
         return Api.update_rights(self.__authorization, username, is_admin, have_access)
 
     def get_last_update(self) -> datetime:
@@ -694,11 +686,13 @@ class Client:
             result = callback_function(command)
             Api.delete_commands(self.__authorization, [command.id])
             return result
+
         return auto_delete_commands_callback_function
 
     async def ws_get_command(self, callback_function) -> None:
-        await Api.ws_get_command(self.__authorization,
-                                 self.__auto_delete_commands_callback_function_decorator(callback_function))
+        await Api.ws_get_command(
+            self.__authorization, self.__auto_delete_commands_callback_function_decorator(callback_function)
+        )
 
     def delete_commands(self, commands: List[int]) -> DeletedCommands:
         return Api.delete_commands(self.__authorization, commands)

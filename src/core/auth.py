@@ -5,9 +5,7 @@ from core import config
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 
-JWTPayloadMapping = MutableMapping[
-    str, Union[datetime, bool, str, List[str], List[int]]
-]
+JWTPayloadMapping = MutableMapping[str, Union[datetime, bool, str, List[str], List[int]]]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"/auth/login")
 

@@ -14,9 +14,7 @@ commands_router = APIRouter()
 commands_router.include_router(commands_ws_router, prefix="/ws")
 
 
-@commands_router.post(
-    "/send", response_model=schemas.command.CommandMini, status_code=201
-)
+@commands_router.post("/send", response_model=schemas.command.CommandMini, status_code=201)
 async def send_command(
     command: schemas.command.CommandCreate,
     db: Session = Depends(core.deps.get_db),
@@ -25,9 +23,7 @@ async def send_command(
     return await crud.command.send_command(command, db, current_user)
 
 
-@commands_router.delete(
-    "/delete_commands", response_model=schemas.command.CommandDeleted
-)
+@commands_router.delete("/delete_commands", response_model=schemas.command.CommandDeleted)
 async def delete_commands(
     commands: schemas.command.CommandDelete,
     db: Session = Depends(core.deps.get_db),

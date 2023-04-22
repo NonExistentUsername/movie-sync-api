@@ -7,14 +7,10 @@ from sqlalchemy.orm import Session
 
 
 def get_user_by_username(db: Session, username: str) -> Optional[models.user.User]:
-    return (
-        db.query(models.user.User).filter(models.user.User.username == username).first()
-    )
+    return db.query(models.user.User).filter(models.user.User.username == username).first()
 
 
-def set_admin_rights_for_user(
-    user: schemas.user.UserUpdate, db: Session, current_user: models.user.User
-):
+def set_admin_rights_for_user(user: schemas.user.UserUpdate, db: Session, current_user: models.user.User):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="You don't have access.")
 
@@ -42,9 +38,7 @@ def get_user(username: str, db: Session, current_user: models.user.User):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="You don't have access.")
 
-    result = (
-        db.query(models.user.User).filter(models.user.User.username == username).first()
-    )
+    result = db.query(models.user.User).filter(models.user.User.username == username).first()
     if not result:
         raise HTTPException(status_code=404, detail="User not found.")
 
