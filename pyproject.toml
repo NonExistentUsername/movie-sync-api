@@ -23,6 +23,21 @@ mypy = "^1.2.0"
 flake8-pyproject = "^1.2.3"
 pre-commit = "^3.2.2"
 
+[tool.flake8]
+ignore = ['F401', 'W503']
+max-line-length = 120
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
