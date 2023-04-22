@@ -1,13 +1,19 @@
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 import core.config
 
-SQLALCHEMY_DATABASE_URI = core.config.DATABASE_URL
+POSTGRES_URI_TEMPLATE = "postgresql+asyncpg://{username}:{password}@db:5432/{database}"
+
+SQLALCHEMY_DATABASE_URI = POSTGRES_URI_TEMPLATE.format(
+    username=core.config.POSTGRES_USER,
+    password=core.config.POSTGRES_PASSWORD,
+    database=core.config.POSTGRES_DB,
+)
 
 connect_args = {}
 
-engine = create_engine(
+engine = create_async_engine(
     SQLALCHEMY_DATABASE_URI,
     connect_args=connect_args,
     pool_pre_ping=True,
