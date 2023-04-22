@@ -12,20 +12,36 @@ services:
       - my-db:/var/lib/mysql
     networks:
     - backend-network
+
+  dbv2:
+    image: postgres:15.2-alpine3.17
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    volumes:
+      - dbv2:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
   web-api:
     build: .
+    command: poetry run uvicorn main:app --workers 1 --host 0.0.0.0 --port 8000
     restart: always
-    working_dir: /app
+    working_dir: /app/src
     ports:
       - "80:8000"
     volumes:
-      - ./app:/app
+      - ./src:/app/src
     env_file:
       - .env
     networks:
     - backend-network
 volumes:
   my-db:
+  dbv2:
+
 networks:
   backend-network:
     driver: bridge

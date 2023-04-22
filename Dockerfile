@@ -1,14 +1,14 @@
-FROM python:3.10.8
+FROM python:3.10.7-slim
 
-WORKDIR /app
+RUN apt-get -y update && apt-get -y upgrade
 
-COPY requirements.txt /app
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random 
 
-RUN pip install -r requirements.txt
-RUN pip install mysqlclient
+RUN pip3 install --no-cache "poetry==1.4.0" && poetry --version
 
-RUN rm requirements.txt
+COPY pyproject.toml poetry.lock ./
 
-EXPOSE 8000
-
-CMD ["uvicorn", "main:app", "--workers", "1", "--host", "0.0.0.0", "--port", "8000"]
+RUN poetry install --no-dev --no-root
