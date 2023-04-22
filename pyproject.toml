@@ -19,6 +19,7 @@ python-multipart = "^0.0.6"
 cryptography = "^40.0.2"
 alembic = "^1.10.3"
 asyncpg = "^0.27.0"
+psycopg2-binary = "^2.9.6"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -30,7 +31,7 @@ flake8-pyproject = "^1.2.3"
 pre-commit = "^3.2.2"
 
 [tool.flake8]
-ignore = ['F401', 'W503']
+ignore = ['F401', 'E402', 'W503', 'W291']
 max-line-length = 120
 
 [tool.black]
