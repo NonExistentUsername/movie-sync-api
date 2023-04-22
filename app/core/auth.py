@@ -1,10 +1,9 @@
-from typing import MutableMapping, List, Union
 from datetime import datetime, timedelta
-
-from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
+from typing import List, MutableMapping, Union
 
 from core import config
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt
 
 JWTPayloadMapping = MutableMapping[
     str, Union[datetime, bool, str, List[str], List[int]]

@@ -1,7 +1,8 @@
+import re
+from typing import List, Optional
+
 from pydantic import BaseModel, Field, validator
 from schemas.validators import is_slug
-from typing import Optional, List
-import re
 
 
 class UserBase(BaseModel):
@@ -21,7 +22,7 @@ class UserUpdate(UserBase):
 
 
 def is_valid_password(password: str) -> bool:
-    regex_name = re.compile(r'^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$')
+    regex_name = re.compile(r"^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$")
     result = regex_name.search(password)
     if result and result.string == password:
         return True

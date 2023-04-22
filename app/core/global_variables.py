@@ -1,7 +1,8 @@
-from fastapi import WebSocket
-from typing import List, Optional, Dict
-from models.command import Command
+from typing import Dict, List, Optional
+
 import schemas.command
+from fastapi import WebSocket
+from models.command import Command
 
 
 class SocketManager:
@@ -22,7 +23,8 @@ class SocketManager:
     async def broadcast(self, command: Command):
         if command.receiver_id in self.active_connections:
             await self.active_connections[command.receiver_id].send_json(
-                schemas.command.Command.from_orm(command).json(indent=2))
+                schemas.command.Command.from_orm(command).json(indent=2)
+            )
 
 
 socket_manager: Optional[SocketManager] = None
@@ -31,4 +33,3 @@ socket_manager: Optional[SocketManager] = None
 def init():
     global socket_manager
     socket_manager = SocketManager()
-

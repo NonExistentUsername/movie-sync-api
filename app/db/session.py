@@ -1,6 +1,6 @@
+import core.config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import core.config
 
 SQLALCHEMY_DATABASE_URI = core.config.DATABASE_URL
 

@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
 import datetime
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
 
 
 class CommandBase(BaseModel):

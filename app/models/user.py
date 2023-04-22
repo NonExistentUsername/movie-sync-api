@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import relationship
-from models.associations import user_room_member_association_table
 from db.base_class import Base
+from models.associations import user_room_member_association_table
+from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.orm import relationship
 
 
 class User(Base):
@@ -13,4 +13,7 @@ class User(Base):
     is_admin = Column(Boolean, nullable=False, default=False)
     have_access = Column(Boolean, nullable=False, default=False)
     member_of_rooms = relationship(
-        "Room", secondary=user_room_member_association_table, back_populates='members_of_room')
+        "Room",
+        secondary=user_room_member_association_table,
+        back_populates="members_of_room",
+    )

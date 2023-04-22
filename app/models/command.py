@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 import datetime
 
 from db.base_class import Base
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 
 
 class Command(Base):
@@ -14,5 +14,3 @@ class Command(Base):
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     room_id = Column(Integer, ForeignKey("rooms.id"), nullable=False)
     create_date = Column(DateTime, default=datetime.datetime.utcnow)
-
-

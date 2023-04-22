@@ -1,14 +1,12 @@
-from typing import Generator, Optional
-from sqlalchemy.orm import Session
-from fastapi import HTTPException, Depends, WebSocket, Query
-from fastapi import status
+from typing import Generator, Optional, Union
+
 import core.config as config
 from core.auth import oauth2_scheme
-from models.user import User
-from jose import jwt, JWTError
-from typing import Union
-
 from db.session import SessionLocal
+from fastapi import Depends, HTTPException, Query, WebSocket, status
+from jose import JWTError, jwt
+from models.user import User
+from sqlalchemy.orm import Session
 
 
 def get_db():
