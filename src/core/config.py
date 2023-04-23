@@ -5,7 +5,10 @@ DEBUG = os.getenv("DEBUG") == "True"
 BASE_DIR = str(os.getenv("BASE_DIR"))
 ACCESS_TOKEN_EXPIRE_MINUTES = int(str(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")))
 JWT_SECRET = str(os.getenv("JWT_SECRET"))
-JWT_ALGORITHM = str(os.getenv("JWT_ALGORITHM"))
+
+
+def get_jwt_algorithm() -> str:
+    return "HS256"
 
 
 def get_postgres_uri() -> str:

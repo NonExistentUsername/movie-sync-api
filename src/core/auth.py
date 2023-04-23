@@ -32,4 +32,4 @@ def _create_token(
     payload["iat"] = datetime.utcnow()
     payload["sub"] = str(sub)
 
-    return jwt.encode(payload, config.JWT_SECRET, algorithm=config.JWT_ALGORITHM)
+    return jwt.encode(payload, config.JWT_SECRET, algorithm=config.get_jwt_algorithm())

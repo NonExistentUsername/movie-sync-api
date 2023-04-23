@@ -32,7 +32,7 @@ async def get_current_user_from_websocket(
         payload = jwt.decode(
             token,
             config.JWT_SECRET,
-            algorithms=[config.JWT_ALGORITHM],
+            algorithms=[config.get_jwt_algorithm()],
             options={"verify_aud": False},
         )
         user_id = payload.get("sub")
@@ -60,7 +60,7 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
         payload = jwt.decode(
             token,
             config.JWT_SECRET,
-            algorithms=[config.JWT_ALGORITHM],
+            algorithms=[config.get_jwt_algorithm()],
             options={"verify_aud": False},
         )
         user_id = payload.get("sub")
