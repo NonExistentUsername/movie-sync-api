@@ -15,3 +15,9 @@ class Room:
 
     def join(self, user_id: int) -> bool:
         raise NotImplementedError()
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, Room):
+            return self.id == __value.id
+
+        return False

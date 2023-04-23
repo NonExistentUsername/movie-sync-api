@@ -15,3 +15,9 @@ class PermissionsGroup:
     @property
     def id(self) -> int:
         return self._id
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, PermissionsGroup):
+            return self.id == __value.id
+
+        return False

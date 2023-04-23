@@ -14,3 +14,9 @@ class User:
     @property
     def id(self) -> int:
         return self._id
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, User):
+            return self.id == __value.id
+
+        return False
