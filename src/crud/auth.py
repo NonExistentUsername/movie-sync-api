@@ -1,11 +1,12 @@
-import models.user
-import schemas.user
-from core.auth import create_access_token
-from core.security import get_password_hash, verify_password
-from crud.user import get_user_by_username
 from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+
+import models.user
+import schemas.user
+from core.old_auth import create_access_token
+from core.security import get_password_hash, verify_password
+from crud.user import get_user_by_username
 
 
 def register_user(user: schemas.user.UserCreate, db: Session):
@@ -37,7 +38,7 @@ def login_user(user: OAuth2PasswordRequestForm, db: Session):
     db_user = get_user_by_username(db, user.username)
     if not db_user:
         raise HTTPException(status_code=400, detail="User with this username is not registered.")
-    if not verify_password(user.password, db_user.hashed_password):
+    if not verify_password(user.password, str(db_user.hashed_password)):
         raise HTTPException(status_code=401, detail="Wrong password.")
 
     return {

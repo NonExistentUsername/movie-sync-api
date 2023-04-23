@@ -7,7 +7,7 @@ from jwt import PyJWTError
 from sqlalchemy.orm import Session
 
 import core.config as config
-from core.auth import oauth2_scheme
+from core.old_auth import oauth2_scheme
 from db.session import SessionLocal
 from models.user import User
 
