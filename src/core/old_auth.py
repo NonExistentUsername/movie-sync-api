@@ -7,8 +7,6 @@ from fastapi.security import OAuth2PasswordBearer
 from core import config
 from core.auth import create_token
 
-JWTPayloadMapping = MutableMapping[str, Union[datetime, bool, str, List[str], List[int]]]
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
