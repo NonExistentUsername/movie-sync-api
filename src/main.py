@@ -9,8 +9,6 @@ from models.associations import user_room_member_association_table
 from models.room import Room
 from models.user import User
 
-# Base.metadata.create_all(bind=engine)
-
 
 def get_application():
     tags_metadata = [
