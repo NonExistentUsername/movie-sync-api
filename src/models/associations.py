@@ -1,5 +1,6 @@
-from db.base_class import Base
 from sqlalchemy import Column, ForeignKey, Table
+
+from db.base_class import Base
 
 user_room_member_association_table = Table(
     "user_room_member_association",
