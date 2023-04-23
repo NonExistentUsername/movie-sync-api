@@ -13,6 +13,5 @@ class Room:
     def id(self) -> int:
         return self._id
 
-    @property
-    def members_of_room(self) -> t.List:
+    def join(self, user_id: int) -> bool:
         raise NotImplementedError()
