@@ -17,6 +17,7 @@ def create_access_token(*, sub: str) -> str:
         "type": "access_token",
         "exp": datetime.utcnow() + lifetime,
         "iat": datetime.utcnow(),
+        "sub": sub,
     }
 
     return create_token(payload=payload)
