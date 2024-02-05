@@ -58,7 +58,7 @@ SQLAlchemy==1.4.41
 sqlalchemy2-stubs==0.0.2a27
 sqlmodel==0.0.8
 sqlparse==0.4.2
-starlette==0.20.4
+starlette==0.36.2
 targ==0.3.7
 tomli==2.0.1
 tortoise-orm==0.19.2
